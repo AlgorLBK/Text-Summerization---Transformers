@@ -23,3 +23,7 @@ def t_summarize(text):
 def summarize(text: Text):
     summary = t_summarize(text.text)
     return {"summary": summary}
+
+@app.get("/")
+def okay():
+    return {"message": "okay"}
