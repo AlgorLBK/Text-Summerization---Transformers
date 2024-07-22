@@ -7,9 +7,10 @@ app = FastAPI()
 class Text(BaseModel):
     text: str
 
-model_name = "google/t5-small"
-revision = "d769bba"
-summarizer = pipeline("summarization", model=model_name, revision=revision)
+model_name = "google-t5/t5-small"
+revision = "main"
+token = "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"
+summarizer = pipeline("summarization", model=model_name, revision=revision, token=token)
 
 
 def t_summarize(text):
@@ -18,7 +19,7 @@ def t_summarize(text):
     print(summary_text)
     return summary_text
 
-@app.post('/')
-async def summarize(text: Text):
-    summary_text = t_summarize(text.text)
-    return {"summary": summary_text}
+@app.post("/")
+def summarize(text: Text):
+    summary = t_summarize(text.text)
+    return {"summary": summary}
