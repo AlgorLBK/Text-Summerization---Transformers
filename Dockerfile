@@ -8,6 +8,9 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory
 WORKDIR /summary
 
+ENV CUDA_VISIBLE_DEVICES=""
+ENV TF_CPP_MIN_LOG_LEVEL=2
+
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

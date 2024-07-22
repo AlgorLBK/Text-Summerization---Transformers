@@ -7,7 +7,10 @@ app = FastAPI()
 class Text(BaseModel):
     text: str
 
-summarizer = pipeline("summarization")
+model_name = "google/t5-small"
+revision = "d769bba"
+summarizer = pipeline("summarization", model=model_name, revision=revision)
+
 
 def t_summarize(text):
     summary = summarizer(text, max_length=100, min_length=10, do_sample=False)
