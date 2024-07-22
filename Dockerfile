@@ -19,4 +19,4 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the FastAPI app using uvicorn
-CMD ["uvicorn", "mlapi:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["gunicorn", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "mlapi:app"]
