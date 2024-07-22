@@ -1,5 +1,11 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.10-slim
+# Use NVIDIA's CUDA base image with Python
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+
+# Install Python and other dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -8,10 +14,7 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory
 WORKDIR /summary
 
-ENV CUDA_VISIBLE_DEVICES=""
-ENV TF_CPP_MIN_LOG_LEVEL=2
-
-# Install dependencies
+# Copy requirements.txt and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -21,5 +24,5 @@ COPY . .
 # Expose the port FastAPI will run on
 EXPOSE 8000
 
-# Command to run the FastAPI app using uvicorn
+# Command to run the FastAPI app using gunicorn and uvicorn
 CMD ["gunicorn", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "mlapi:app"]
