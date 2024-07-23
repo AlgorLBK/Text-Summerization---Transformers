@@ -9,12 +9,12 @@ class Text(BaseModel):
 
 model_name = "google-t5/t5-small"
 revision = "main"
-token = "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"
+token = "your_hugging_face_token"
 summarizer = pipeline("summarization", model=model_name, revision=revision, token=token)
 
 
 def t_summarize(text):
-    summary = summarizer(text, max_length=100, min_length=10, do_sample=False)
+    summary = summarizer(text, max_length=130, min_length=50, do_sample=False)
     summary_text = summary[0]['summary_text']
     print(summary_text)
     return summary_text
